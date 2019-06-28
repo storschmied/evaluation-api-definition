@@ -1,0 +1,146 @@
+---
+swagger: "2.0"
+info:
+  description: This is a simple CompanyVO API
+  version: 1.0.0
+  title: Simple CompanyVO API
+  contact:
+    name: Sven Torschmied
+    email: sven.torschmied@cosinex.de
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /storschmied/Evaluation/1.0.0
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+  externalDocs:
+    url: http://intern.cosinex.local/confluence/display/OKO/Testseite+Swagger+Hub+-+Confluence+Export
+schemes:
+- https
+paths:
+  /company:
+    get:
+      tags:
+      - developers
+      summary: searches CompanyVOs
+      description: |
+        By passing in the appropriate options, you can search for
+        available CompanyVOs in the system
+      operationId: searchCompanyVO
+      produces:
+      - application/json
+      parameters:
+      - name: searchString
+        in: query
+        description: pass an optional search string for looking up CompanyVOs
+        required: false
+        type: string
+      - name: skip
+        in: query
+        description: number of records to skip for pagination
+        required: false
+        type: integer
+        minimum: 0
+        format: int32
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        type: integer
+        maximum: 50
+        minimum: 0
+        format: int32
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CompanyVO'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - admins
+      summary: adds an CompanyVO
+      description: Adds an CompanyVO to the system
+      operationId: addCompanyVO
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: CompanyVO
+        description: CompanyVO to add
+        required: false
+        schema:
+          $ref: '#/definitions/CompanyVO'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+definitions:
+  CompanyVO:
+    type: object
+    required:
+    - id
+    - name
+    properties:
+      id:
+        type: string
+        example: "42"
+      name:
+        type: string
+        example: ACME Corporation
+      street:
+        type: string
+        example: Lorem Ipsum
+      postcode:
+        type: string
+        example: "11111"
+      city:
+        type: string
+        example: Lorem Ipsum
+      postbox:
+        type: string
+        example: Lorem Ipsum
+      country:
+        type: string
+        example: Lorem Ipsum
+      phone:
+        type: string
+        example: "1111111111"
+      fax:
+        type: string
+        example: "1111111111"
+      email:
+        type: string
+        format: email
+        example: lorem@ipsum.de
+      internet:
+        type: string
+        format: url
+        example: https://www.acme-corp.com
+      localCourt:
+        type: string
+        example: Lorem Ipsum
+      localCourtNumber:
+        type: string
+        example: Lorem Ipsum
+      vatRegNo:
+        type: string
+        example: Lorem Ipsum
+      miscellaneous:
+        type: string
+        example: Lorem Ipsum
+      registrationNumber:
+        type: string
+        example: Lorem Ipsum
